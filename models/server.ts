@@ -2,22 +2,33 @@
 import express from 'express'
 import cors from 'cors'
 import userRoutes from '../routes/userRoutes'
+import { dbConnection } from '../database/config'
 
 class Server {
   app
   port
   usersPath
+  connectionToDB
 
   constructor () {
     this.app = express()
     this.port = process.env.PORT
+    this.connectionToDB = process.env.MONGODB_CNN
     this.usersPath = '/api/users'
 
     // Middlewares
     this.middlewares()
 
+    // DB Connection
+    this.dbConnection()
+
     // Routes
     this.routes()
+  }
+
+  dbConnection (): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    dbConnection(this.connectionToDB as string)
   }
 
   middlewares (): void {
@@ -37,7 +48,6 @@ class Server {
 
   listen (): void {
     this.app.listen(this.port, () => {
-      // LOG:
       console.log(`Server runnin on port ${this.port}`)
     })
   }
