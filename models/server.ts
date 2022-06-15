@@ -13,7 +13,7 @@ class Server {
   constructor () {
     this.app = express()
     this.port = process.env.PORT
-    this.connectionToDB = process.env.MONGODB_CNN
+    this.connectionToDB = 'mongodb+srv://dva-rest-server:eGxvlRj1BzEVYCiR@dvacluster.tdhqu.mongodb.net/dvaDB'
     this.usersPath = '/api/users'
 
     // Middlewares
@@ -28,7 +28,7 @@ class Server {
 
   dbConnection (): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dbConnection(this.connectionToDB as string)
+    dbConnection(this.connectionToDB)
   }
 
   middlewares (): void {
