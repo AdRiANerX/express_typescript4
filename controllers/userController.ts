@@ -45,8 +45,6 @@ export const putUser = async (req: Request, resp: Response) => {
 
 export const deleteUser = async (req: Request, resp: Response) => {
   const { id } = req.params
-  // Delete user of DB
-  // const user = UserModel.findByIdAndDelete(id)
 
   // Change state to delete
   const user = await UserModel.findByIdAndUpdate<IUser>(id, { live: false })

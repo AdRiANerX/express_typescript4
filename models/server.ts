@@ -3,11 +3,13 @@ import express from 'express'
 import cors from 'cors'
 import userRoutes from '../routes/userRoutes'
 import { dbConnection } from '../database/config'
+import authRoute from '../routes/authRoute'
 
 class Server {
   app
   port
   usersPath
+  authPath
   connectionToDB
 
   constructor () {
@@ -15,6 +17,7 @@ class Server {
     this.port = process.env.PORT
     this.connectionToDB = process.env.MONGODB_CNN
     this.usersPath = '/api/users'
+    this.authPath = '/api/auth'
 
     // Middlewares
     this.middlewares()
@@ -43,6 +46,7 @@ class Server {
   }
 
   routes (): void {
+    this.app.use(this.authPath, authRoute)
     this.app.use(this.usersPath, userRoutes)
   }
 

@@ -4,6 +4,8 @@ import { check } from 'express-validator'
 import { deleteUser, getUsers, postUser, putUser } from '../controllers/userController'
 import { validateFields } from '../middlewares/validateFields'
 import { roleValidator, emailAlreadyExist, idValidator } from '../middlewares/dbValidators/dbValidators'
+import { validateJWT } from '../middlewares/validateJWT'
+import { isAdmin } from '../middlewares/validateRoles'
 
 const userRoutes = Router()
 
@@ -25,6 +27,8 @@ userRoutes.put('/:id', [
 ], putUser)
 
 userRoutes.delete('/:id', [
+  validateJWT,
+  isAdmin,
   check('id', "Parameter 'id' valid is required").isMongoId(),
   check('id').custom(idValidator),
   validateFields

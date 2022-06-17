@@ -5,7 +5,9 @@ export interface IUser extends mongoose.Document {
   email: string
   password: string
   role: string
-  live?: boolean
+  live: boolean
+  uid: string
+  token: string
 }
 
 const UserSchema = new Schema<IUser>({
@@ -28,6 +30,12 @@ const UserSchema = new Schema<IUser>({
   },
   live: {
     type: Boolean
+  },
+  uid: {
+    type: String
+  },
+  token: {
+    type: String
   }
 })
 
@@ -36,6 +44,8 @@ UserSchema.methods.toJSON = function () {
   const obj = this.toObject()
   delete obj.password
   delete obj.__v
+  obj.uid = obj._id
+  delete obj._id
   return obj
 }
 
